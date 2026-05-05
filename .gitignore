@@ -1,0 +1,17 @@
+backend/.venv/
+backend/data/
+frontend/.next/
+frontend/node_modules/
+frontend/.env.local
+.pnpm-store/
+node_modules/
+dist/
+build/
+.env
+.env.*
+!.env.example
+*.log
+*.pyc
+__pycache__/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,42 @@
+import { create } from "zustand";
+
+export const useEditorStore = create((set) => ({
+  mode: "login",
+  email: "",
+  password: "",
+  authError: "",
+  projectError: "",
+  audio: null,
+  backgroundVideo: null,
+  lyrics: "",
+  activePanel: "lyrics",
+  previewText: "SA BAWAT PANGARAP, IKAW ANG KASAMA",
+  aspectRatio: "16:9",
+  appearance: {
+    layoutMode: "line",
+    lineCount: 2,
+    alignment: "center-center",
+    animation: "none",
+    textSize: "large",
+    fontSizePx: 72,
+    effect: "outline",
+    textColor: "#ffffff",
+    effectColor: "#f87171",
+    fontFamily: "Bowlby One SC",
+  },
+  setMode: (mode) => set({ mode }),
+  setEmail: (email) => set({ email }),
+  setPassword: (password) => set({ password }),
+  setAuthError: (authError) => set({ authError }),
+  setProjectError: (projectError) => set({ projectError }),
+  setAudio: (audio) => set({ audio }),
+  setBackgroundVideo: (backgroundVideo) => set({ backgroundVideo }),
+  setLyrics: (lyrics) => set({ lyrics, previewText: lyrics.trim() || "SA BAWAT PANGARAP, IKAW ANG KASAMA" }),
+  setActivePanel: (activePanel) => set({ activePanel }),
+  setAspectRatio: (aspectRatio) => set({ aspectRatio }),
+  setAppearance: (patch) =>
+    set((state) => ({
+      appearance: { ...state.appearance, ...patch },
+    })),
+  resetUpload: () => set({ audio: null, backgroundVideo: null, lyrics: "", previewText: "SA BAWAT PANGARAP, IKAW ANG KASAMA" }),
+}));

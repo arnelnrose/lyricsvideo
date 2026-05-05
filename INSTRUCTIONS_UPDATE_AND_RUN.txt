@@ -1,0 +1,85 @@
+LYRICSVIDEO - UPDATE AND RUN GUIDE
+Date: 2026-04-29
+
+==================================================
+1) FRONTEND (Next.js + pnpm)
+==================================================
+
+Location:
+  c:\MyFiles\MyProjects\lyricsvideo\frontend
+
+Commands:
+  cd c:\MyFiles\MyProjects\lyricsvideo\frontend
+  pnpm install
+  pnpm update
+  pnpm dev
+
+Open in browser:
+  http://localhost:3000
+
+If pnpm shows store/location mismatch:
+  pnpm install --config.confirmModulesPurge=false
+
+If needed for Prisma manually:
+  pnpm prisma:generate
+  pnpm prisma:migrate
+
+
+==================================================
+2) BACKEND (Python FastAPI)
+==================================================
+
+Location:
+  c:\MyFiles\MyProjects\lyricsvideo\backend
+
+First time setup (or if .venv is missing):
+  cd c:\MyFiles\MyProjects\lyricsvideo\backend
+  python -m venv .venv
+
+Activate virtual environment:
+  PowerShell:
+    .\.venv\Scripts\Activate.ps1
+  CMD:
+    .venv\Scripts\activate.bat
+
+Update/install dependencies:
+  python -m pip install --upgrade pip
+  pip install -U -r requirements.txt
+
+Run backend:
+  uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+Check health endpoint:
+  http://127.0.0.1:8000/health
+  Expected: {"status":"ok"}
+
+
+==================================================
+3) RUN BOTH TOGETHER
+==================================================
+
+Terminal 1 (backend):
+  cd c:\MyFiles\MyProjects\lyricsvideo\backend
+  .\.venv\Scripts\Activate.ps1
+  uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+Terminal 2 (frontend):
+  cd c:\MyFiles\MyProjects\lyricsvideo\frontend
+  pnpm dev
+
+
+==================================================
+4) QUICK TROUBLESHOOTING
+==================================================
+
+- "ERR_PNPM_UNEXPECTED_STORE":
+  Run:
+    pnpm install --config.confirmModulesPurge=false
+
+- "spawn EPERM" during pnpm postinstall:
+  Re-run terminal as Administrator and run:
+    pnpm install --config.confirmModulesPurge=false
+
+- Backend import/module error:
+  Make sure venv is activated before running uvicorn.
+

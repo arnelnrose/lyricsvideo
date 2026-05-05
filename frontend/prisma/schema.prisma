@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  projects     Project[]
+  tracks       Track[]
+}
+
+model Project {
+  id             String   @id @default(cuid())
+  ownerId        String
+  lyricsProjectId String   @unique
+  status         String   @default("uploaded")
+  outputPath     String?
+  lastError      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  owner          User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId, createdAt])
+}
+
+model Track {
+  id          String   @id @default(cuid())
+  ownerId     String
+  title       String
+  artist      String
+  durationSec Int
+  fileSizeMb  Int
+  fileType    String
+  originalFileName String?
+  mimeType    String?
+  videosCount Int      @default(0)
+  createdAt   DateTime @default(now())
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId, createdAt])
+}
